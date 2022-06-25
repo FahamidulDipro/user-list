@@ -26,7 +26,6 @@ const Signup = () => {
   };
   let displayError;
   if (error) {
-  
     displayError = <p className="text-danger">{error?.message}</p>;
   }
 
