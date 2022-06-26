@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { ListGroup, Badge } from "react-bootstrap";
+import Loading from "../Loading/Loading";
 
 const Home = () => {
   const {
@@ -13,6 +14,9 @@ const Home = () => {
       return res.json();
     })
   );
+  if (isLoading) {
+    return <Loading></Loading>;
+  }
 
   return (
     <ListGroup as="ol" numbered>
