@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useQuery } from "react-query";
 import { ListGroup, Badge } from "react-bootstrap";
 import Loading from "../Loading/Loading";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -9,11 +8,6 @@ const Home = () => {
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(2);
   useEffect(() => {
-    // const getUsers = async () => {
-    //   const res = await fetch("https://randomuser.me/api/?page=1&results=10");
-    //   const data = await res.json();
-    //   setUsers(data);
-    // };
     const getUsers = () => {
       fetch(`https://randomuser.me/api/?page=1&results=10`)
         .then((res) => res.json())
@@ -21,20 +15,7 @@ const Home = () => {
     };
     getUsers();
   }, []);
-  console.log(users);
-  // const [fetchedUsers, setFetchedUsers] = useState([]);
-  // const {
-  //   data: users,
-  //   isLoading,
-  //   refetch,
-  // } = useQuery("userData", () =>
-  //   fetch("https://randomuser.me/api/?page=1&results=10").then((res) => {
-  //     return res.json();
-  //   })
-  // );
-  // if (isLoading) {
-  //   return <Loading></Loading>;
-  // }
+
   const fetchUsers = async () => {
     const res = await fetch(
       `https://randomuser.me/api/?page=${page}&results=10`
@@ -56,7 +37,7 @@ const Home = () => {
     <ListGroup as="ol" numbered>
       {}
       <InfiniteScroll
-        dataLength={users?.length} //This is important field to render the next data
+        dataLength={users?.length}
         next={fetchData}
         hasMore={hasMore}
         loader={<Loading></Loading>}
