@@ -13,9 +13,9 @@ const Navigation = () => {
     navigate("/login");
   };
   return (
-    <Navbar bg="dark" variant="dark" expand="lg">
+    <Navbar bg="dark" variant="dark fixed-top" expand="lg">
       <Container>
-        <Navbar.Brand to="/home">User List</Navbar.Brand>
+        <Navbar.Brand ><NavLink to="/home" className="text-decoration-none text-light">User List</NavLink></Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">

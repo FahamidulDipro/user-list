@@ -7,6 +7,7 @@ const Home = () => {
   const [users, setUsers] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(2);
+
   useEffect(() => {
     const getUsers = () => {
       fetch(`https://randomuser.me/api/?page=1&results=10`)
@@ -29,12 +30,11 @@ const Home = () => {
     if (usersFromServer.length === 0 || usersFromServer.length < 10) {
       setHasMore(false);
     }
-
     setPage(page + 1);
     console.log(usersFromServer.length);
   };
   return (
-    <ListGroup as="ol" numbered>
+    <ListGroup as="ol" numbered style={{ marginTop: "100px" }}>
       {}
       <InfiniteScroll
         dataLength={users?.length}
@@ -47,12 +47,13 @@ const Home = () => {
           </p>
         }
       >
-        {users?.map((user) => (
+        {users?.map((user, count = 0) => (
           <ListGroup.Item
             as="li"
             className="d-flex justify-content-between align-items-start"
           >
             <div className="ms-2 me-auto d-flex text-start">
+              <span className="mt-4 me-3 fw-bold">{count + 1}</span>
               <img
                 src={user.picture.thumbnail}
                 alt="userImg"
