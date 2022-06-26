@@ -5,31 +5,68 @@ import Loading from "../Loading/Loading";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 const Home = () => {
-  const {
-    data: users,
-    isLoading,
-    refetch,
-  } = useQuery("userData", () =>
-    fetch("https://randomuser.me/api/?results=500").then((res) => {
-      refetch();
-      return res.json();
-    })
-  );
-  if (isLoading) {
-    return <Loading></Loading>;
-  }
+  const [users, setUsers] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
+  const [page, setPage] = useState(2);
+  useEffect(() => {
+    // const getUsers = async () => {
+    //   const res = await fetch("https://randomuser.me/api/?page=1&results=10");
+    //   const data = await res.json();
+    //   setUsers(data);
+    // };
+    const getUsers = () => {
+      fetch(`https://randomuser.me/api/?page=1&results=10`)
+        .then((res) => res.json())
+        .then((data) => setUsers(data.results));
+    };
+    getUsers();
+  }, []);
+  console.log(users);
+  // const [fetchedUsers, setFetchedUsers] = useState([]);
+  // const {
+  //   data: users,
+  //   isLoading,
+  //   refetch,
+  // } = useQuery("userData", () =>
+  //   fetch("https://randomuser.me/api/?page=1&results=10").then((res) => {
+  //     return res.json();
+  //   })
+  // );
+  // if (isLoading) {
+  //   return <Loading></Loading>;
+  // }
+  const fetchUsers = async () => {
+    const res = await fetch(
+      `https://randomuser.me/api/?page=${page}&results=10`
+    );
+    const data = await res.json();
+    return data.results;
+  };
+  const fetchData = async () => {
+    const usersFromServer = await fetchUsers();
+    setUsers([...users, ...usersFromServer]);
+    if (usersFromServer.length === 0 || usersFromServer.length < 10) {
+      setHasMore(false);
+    }
 
+    setPage(page + 1);
+    console.log(usersFromServer.length);
+  };
   return (
     <ListGroup as="ol" numbered>
+      {}
       <InfiniteScroll
-        dataLength={users.results.length}
-        style={{ display: "flex", flexDirection: "column-reverse" }} //To put endMessage and loader to the top.
-        inverse={true}
-        hasMore={true}
+        dataLength={users?.length} //This is important field to render the next data
+        next={fetchData}
+        hasMore={hasMore}
         loader={<Loading></Loading>}
-        scrollableTarget="scrollableDiv"
+        endMessage={
+          <p style={{ textAlign: "center" }}>
+            <b>Yay! You have seen it all</b>
+          </p>
+        }
       >
-        {users?.results?.map((user) => (
+        {users?.map((user) => (
           <ListGroup.Item
             as="li"
             className="d-flex justify-content-between align-items-start"
