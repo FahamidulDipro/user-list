@@ -2,13 +2,14 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [signInWithEmailAndPassword, user, loading, error] =
     useSignInWithEmailAndPassword(auth);
   const navigate = useNavigate();
-
+  const location = useLocation();
+  const from = location?.state?.from?.pathname || "/home";
   const { register, handleSubmit } = useForm();
   const onSubmit = async (data) => {
     const email = data.email;
@@ -17,13 +18,15 @@ const Login = () => {
 
     console.log(data);
   };
+
   let displayError;
   if (error) {
     displayError = <p className="text-danger text-start">{error?.message}</p>;
   }
   if (user) {
-    navigate("/");
+    navigate(from, { replace: true });
   }
+
   return (
     <div className="d-flex justify-content-center">
       <div className="mt-5 d-flex justify-content-center align-items-center  w-50 p-3">

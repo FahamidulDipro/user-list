@@ -15,12 +15,12 @@ const Navigation = () => {
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
       <Container>
-        <Navbar.Brand to="#home">User List</Navbar.Brand>
+        <Navbar.Brand to="/home">User List</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
             <NavLink
-              to="/"
+              to="/home"
               className="text-decoration-none text-light ms-3 mt-1"
             >
               Home
